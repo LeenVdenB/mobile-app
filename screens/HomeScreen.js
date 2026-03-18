@@ -9,6 +9,7 @@ import {
   Switch,
 } from "react-native";
 import { useState } from "react";
+import BlogCard from "../components/BlogCard";
 
 const HomeScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -42,31 +43,48 @@ const HomeScreen = ({ navigation }) => {
           })
         }
       />
+      <BlogCard
+        title={"Tips en tricks om oude cd's te veranderen in leuke decoratie"}
+        description={
+          "Lees hier hoe je oude cd's kan hergebruiken in leuke decoratie voor in huis"
+        }
+        image={require("../images/cdimg.jpg")}
+        onPress={() =>
+          navigation.navigate("BlogDetails", {
+            title:
+              "Tips en tricks om oude cd's te veranderen in leuke decoratie",
+            description:
+              "Lees hier hoe je oude cd's kan hergebruiken in leuke decoratie voor in huis",
+            image: require("../images/cdimg.jpg"),
+          })
+        }
+      />
       <ProductCard
         title={"Brei kit"}
         description={"Een mooie brei kit voor al je breiwerk"}
         price={"29.99"}
-        image={require("../images/potjes.jpg")}
+        image={require("../images/breiimg.png")}
         onPress={() =>
           navigation.navigate("Details", {
             title: "Brei kit",
             description: "Een mooie brei kit voor al je breiwerk",
             price: "29.99",
-            image: require("../images/potjes.jpg"),
+            image: require("../images/breiimg.png"),
           })
         }
       />
-      <ProductCard
-        title={"Tuinset"}
-        description={"Een mooie tuinset voor je tuin"}
-        price={"39.99"}
-        image={require("../images/potjes.jpg")}
+      <BlogCard
+        title={"Stap voor stap: Vlindertandenstokers voor jouw feestje"}
+        description={
+          "Lees hier hoe je zelf vlindertandenstokers kan maken voor jouw feestje"
+        }
+        image={require("../images/vlinderimg.webp")}
         onPress={() =>
-          navigation.navigate("Details", {
-            title: "Tuinset",
-            description: "Een mooie tuinset voor je tuin",
-            price: "39.99",
-            image: require("../images/potjes.jpg"),
+          navigation.navigate("BlogDetails", {
+            title: "Stap voor stap: Vlindertandenstokers voor jouw feestje",
+            description:
+              "Lees hier hoe je zelf vlindertandenstokers kan maken voor jouw feestje",
+            image: require("../images/vlinderimg.webp"),
           })
         }
       />
