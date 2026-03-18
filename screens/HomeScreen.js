@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
 
   return (
@@ -28,9 +28,49 @@ const HomeScreen = () => {
           onValueChange={() => setIsEnabled(!isEnabled)}
         />
       </View>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      <ProductCard
+        title={"Potjes"}
+        description={"Een mooie set potjes voor je tuin"}
+        price={"19.99"}
+        image={require("../images/potjes.jpg")}
+        onPress={() =>
+          navigation.navigate("Details", {
+            title: "Potjes",
+            description: "Een mooie set potjes voor je tuin",
+            price: "19.99",
+            image: require("../images/potjes.jpg"),
+          })
+        }
+      />
+      <ProductCard
+        title={"Brei kit"}
+        description={"Een mooie brei kit voor al je breiwerk"}
+        price={"29.99"}
+        image={require("../images/potjes.jpg")}
+        onPress={() =>
+          navigation.navigate("Details", {
+            title: "Brei kit",
+            description: "Een mooie brei kit voor al je breiwerk",
+            price: "29.99",
+            image: require("../images/potjes.jpg"),
+          })
+        }
+      />
+      <ProductCard
+        title={"Tuinset"}
+        description={"Een mooie tuinset voor je tuin"}
+        price={"39.99"}
+        image={require("../images/potjes.jpg")}
+        onPress={() =>
+          navigation.navigate("Details", {
+            title: "Tuinset",
+            description: "Een mooie tuinset voor je tuin",
+            price: "39.99",
+            image: require("../images/potjes.jpg"),
+          })
+        }
+      />
+
       <StatusBar style="auto" />
     </ScrollView>
   );

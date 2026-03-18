@@ -2,17 +2,15 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const ProductCard = () => {
+const ProductCard = ({ title, description, price, image, onPress }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.card}>
-      <Image source={require("../images/Hero-img.avif")} style={styles.image} />
-      <Text style={styles.title}>Product Title</Text>
-      <Text style={styles.description}>Beschrijving</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Details")}
-      >
+      <Image source={image} style={styles.image} />
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.price}>{price}</Text>
+      <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Bekijk product</Text>
       </TouchableOpacity>
     </View>
@@ -51,6 +49,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
