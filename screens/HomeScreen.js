@@ -8,11 +8,84 @@ import {
   TextInput,
   Switch,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogCard from "../components/BlogCard";
+import { Picker } from "@react-native-picker/picker";
+
+const categoryNames = {
+  "": "Alle categorieën",
+  "69b03cc82034142762e9cde4": "Klei kits",
+  "69b03bdf44c4e17c86248aeb": "Brei en naai kits",
+  "69b03b65963ab12242b0d037": "Verf kits",
+  "69b03b324fce98cb8fcca8ef": "3D houtpuzzels",
+  "699f17bd9605648963158865": "Stap voor stap",
+  "699f176fde5f5b12980c2d96": "Tips",
+  "699ef99058e25af58090912b": "DIY",
+};
 
 const HomeScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  //products
+  useEffect(() => {
+    fetch(
+      "https://api.webflow.com/v2/sites/698c7fd44871d7541625e267/products",
+      {
+        headers: {
+          authorization:
+            "Bearer bffa2a7a053afd181167ea29424430b96e9f7fa7b956ea6db8ac7adb6a9e6420",
+        },
+      },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(
+          data.items.map((item) => ({
+            id: item.product.id,
+            title: item.product.fieldData.name,
+            subtitle: item.product.fieldData.description,
+            price: (item.skus[0]?.fieldData.price.value || 0) / 100,
+            image: { uri: item.skus[0]?.fieldData["main-image"]?.url },
+            category:
+              categoryNames[item.product.fieldData.category[0]] ||
+              "Onbekende categorie",
+          })),
+        );
+      })
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
+
+  //blogs
+  useEffect(() => {
+    fetch(
+      "https://api.webflow.com/v2/collections/699ef93f293793a9704700a7/items",
+      {
+        headers: {
+          authorization:
+            "Bearer bffa2a7a053afd181167ea29424430b96e9f7fa7b956ea6db8ac7adb6a9e6420",
+        },
+      },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setBlogs(
+          data.items.map((item) => ({
+            id: item.id,
+            title: item.fieldData.name,
+            subtitle: item.fieldData["post-summary"],
+            image: { uri: item.fieldData["main-image"]?.url },
+          })),
+        );
+      })
+      .catch((error) => console.error("Error fetching blogs:", error));
+  }, []);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -29,65 +102,40 @@ const HomeScreen = ({ navigation }) => {
           onValueChange={() => setIsEnabled(!isEnabled)}
         />
       </View>
-      <ProductCard
-        title={"Potjes"}
-        description={"Een mooie set potjes voor je tuin"}
-        price={"19.99"}
-        image={require("../images/potjes.jpg")}
-        onPress={() =>
-          navigation.navigate("Details", {
-            title: "Potjes",
-            description: "Een mooie set potjes voor je tuin",
-            price: "19.99",
-            image: require("../images/potjes.jpg"),
-          })
-        }
-      />
-      <BlogCard
-        title={"Tips en tricks om oude cd's te veranderen in leuke decoratie"}
-        description={
-          "Lees hier hoe je oude cd's kan hergebruiken in leuke decoratie voor in huis"
-        }
-        image={require("../images/cdimg.jpg")}
-        onPress={() =>
-          navigation.navigate("BlogDetails", {
-            title:
-              "Tips en tricks om oude cd's te veranderen in leuke decoratie",
-            description:
-              "Lees hier hoe je oude cd's kan hergebruiken in leuke decoratie voor in huis",
-            image: require("../images/cdimg.jpg"),
-          })
-        }
-      />
-      <ProductCard
-        title={"Brei kit"}
-        description={"Een mooie brei kit voor al je breiwerk"}
-        price={"29.99"}
-        image={require("../images/breiimg.png")}
-        onPress={() =>
-          navigation.navigate("Details", {
-            title: "Brei kit",
-            description: "Een mooie brei kit voor al je breiwerk",
-            price: "29.99",
-            image: require("../images/breiimg.png"),
-          })
-        }
-      />
-      <BlogCard
-        title={"Stap voor stap: Vlindertandenstokers voor jouw feestje"}
-        description={
-          "Lees hier hoe je zelf vlindertandenstokers kan maken voor jouw feestje"
-        }
-        image={require("../images/vlinderimg.webp")}
-        onPress={() =>
-          navigation.navigate("BlogDetails", {
-            title: "Stap voor stap: Vlindertandenstokers voor jouw feestje",
-            description:
-              "Lees hier hoe je zelf vlindertandenstokers kan maken voor jouw feestje",
-            image: require("../images/vlinderimg.webp"),
-          })
-        }
-      />
+
+      <Picker
+        selectedValue={selectedCategory}
+        onValueChange={setSelectedCategory}
+        style={styles.picker}
+      >
+        <Picker.Item label="Alle categorieën" value="" />
+        <Picker.Item label="Klei kits" value="Klei kits" />
+        <Picker.Item label="Brei en naai kits" value="Brei en naai kits" />
+        <Picker.Item label="Verf kits" value="Verf kits" />
+        <Picker.Item label="3D houtpuzzels" value="3D houtpuzzels" />
+        <Picker.Item label="DIY" value="DIY" />
+      </Picker>
+
+      {filteredProducts.map((product) => (
+        <ProductCard
+          key={product.id}
+          title={product.title}
+          description={product.subtitle}
+          price={product.price}
+          image={product.image}
+          onPress={() => navigation.navigate("Details", product)}
+        />
+      ))}
+
+      {blogs.map((blog) => (
+        <BlogCard
+          key={blog.id}
+          title={blog.title}
+          description={blog.subtitle}
+          image={blog.image}
+          onPress={() => navigation.navigate("BlogDetails", blog)}
+        />
+      ))}
 
       <StatusBar style="auto" />
     </ScrollView>
@@ -123,6 +171,12 @@ const styles = StyleSheet.create({
   },
   toggleLabel: {
     fontSize: 16,
+  },
+  picker: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
   },
 });
 

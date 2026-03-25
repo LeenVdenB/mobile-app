@@ -9,7 +9,7 @@ const ProductCard = ({ title, description, price, image, onPress }) => {
       <Image source={image} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.price}>{price}</Text>
+      <Text style={styles.price}>€{price}</Text>
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Bekijk product</Text>
       </TouchableOpacity>
