@@ -28,6 +28,8 @@ const HomeScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("price-asc");
 
   //products
   useEffect(() => {
@@ -58,9 +60,19 @@ const HomeScreen = ({ navigation }) => {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  const filteredProducts = selectedCategory
-    ? products.filter((product) => product.category === selectedCategory)
-    : products;
+  const filteredProducts = products.filter(
+    (p) =>
+      (selectedCategory === "" || p.category === selectedCategory) &&
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOption === "price-asc") return a.price - b.price;
+    if (sortOption === "price-desc") return b.price - a.price;
+    if (sortOption === "name-asc") return a.title.localeCompare(b.title);
+    if (sortOption === "name-desc") return b.title.localeCompare(a.title);
+    return 0;
+  });
 
   //blogs
   useEffect(() => {
@@ -94,6 +106,8 @@ const HomeScreen = ({ navigation }) => {
         style={styles.search}
         placeholder="Zoek een product..."
         placeholderTextColor="#888"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
       />
       <View style={styles.toggleRow}>
         <Text style={styles.toggleLabel}>Toon enkel promoties</Text>
@@ -116,7 +130,18 @@ const HomeScreen = ({ navigation }) => {
         <Picker.Item label="DIY" value="DIY" />
       </Picker>
 
-      {filteredProducts.map((product) => (
+      <Picker
+        selectedValue={sortOption}
+        onValueChange={setSortOption}
+        style={styles.picker}
+      >
+        <Picker.Item label="Prijs: Laag naar hoog" value="price-asc" />
+        <Picker.Item label="Prijs: Hoog naar laag" value="price-desc" />
+        <Picker.Item label="Naam: A tot Z" value="name-asc" />
+        <Picker.Item label="Naam: Z tot A" value="name-desc" />
+      </Picker>
+
+      {sortedProducts.map((product) => (
         <ProductCard
           key={product.id}
           title={product.title}
