@@ -102,7 +102,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Onze Producten</Text>
+      <Text style={styles.title}>Craftly Studios</Text>
       <TextInput
         style={styles.search}
         placeholder="Zoek een product..."
@@ -110,39 +110,34 @@ const HomeScreen = ({ navigation }) => {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <View style={styles.toggleRow}>
-        <Text style={styles.toggleLabel}>Toon enkel promoties</Text>
-        <Switch
-          value={isEnabled}
-          onValueChange={() => setIsEnabled(!isEnabled)}
-        />
+
+      <View style={styles.pickerRow}>
+        <Picker
+          selectedValue={selectedCategory}
+          onValueChange={setSelectedCategory}
+          style={styles.pickerHalf}
+        >
+          <Picker.Item label="Alle categorieën" value="" />
+          <Picker.Item label="Klei kits" value="Klei kits" />
+          <Picker.Item label="Brei en naai kits" value="Brei en naai kits" />
+          <Picker.Item label="Verf kits" value="Verf kits" />
+          <Picker.Item label="3D houtpuzzels" value="3D houtpuzzels" />
+          <Picker.Item label="DIY" value="DIY" />
+        </Picker>
+
+        <Picker
+          selectedValue={sortOption}
+          onValueChange={setSortOption}
+          style={styles.pickerHalf}
+        >
+          <Picker.Item label="Prijs: Laag naar hoog" value="price-asc" />
+          <Picker.Item label="Prijs: Hoog naar laag" value="price-desc" />
+          <Picker.Item label="Naam: A tot Z" value="name-asc" />
+          <Picker.Item label="Naam: Z tot A" value="name-desc" />
+        </Picker>
       </View>
 
-      <Picker
-        selectedValue={selectedCategory}
-        onValueChange={setSelectedCategory}
-        style={styles.picker}
-      >
-        <Picker.Item label="Alle categorieën" value="" />
-        <Picker.Item label="Klei kits" value="Klei kits" />
-        <Picker.Item label="Brei en naai kits" value="Brei en naai kits" />
-        <Picker.Item label="Verf kits" value="Verf kits" />
-        <Picker.Item label="3D houtpuzzels" value="3D houtpuzzels" />
-        <Picker.Item label="DIY" value="DIY" />
-      </Picker>
-
-      <Picker
-        selectedValue={sortOption}
-        onValueChange={setSortOption}
-        style={styles.picker}
-      >
-        <Picker.Item label="Prijs: Laag naar hoog" value="price-asc" />
-        <Picker.Item label="Prijs: Hoog naar laag" value="price-desc" />
-        <Picker.Item label="Naam: A tot Z" value="name-asc" />
-        <Picker.Item label="Naam: Z tot A" value="name-desc" />
-      </Picker>
-
-      <Text style={styles.title}>Onze Producten</Text>
+      <Text style={styles.sectionTitle}>Onze Producten</Text>
       {sortedProducts.map((product) => (
         <ProductCard
           key={product.id}
@@ -154,7 +149,7 @@ const HomeScreen = ({ navigation }) => {
         />
       ))}
 
-      <Text style={styles.title}>Onze Blogs</Text>
+      <Text style={styles.sectionTitle}>Onze Blogs</Text>
       {blogs.map((blog) => (
         <BlogCard
           key={blog.id}
@@ -173,38 +168,51 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1c995",
   },
   content: {
     padding: 20,
-    gap: 20,
+    gap: 18,
+    paddingBottom: 40,
+    alignItems: "center",
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
+    marginTop: 10,
+    color: "#2b1b12",
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 10,
+    color: "#2b1b12",
   },
   search: {
     width: "100%",
-    padding: 12,
-    borderRadius: 8,
+    padding: 14,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#e7c9a6",
+    backgroundColor: "#fff7ef",
+    color: "#2b1b12",
     fontSize: 16,
   },
-  toggleRow: {
-    width: "100%",
+
+  pickerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  toggleLabel: {
-    fontSize: 16,
-  },
-  picker: {
     width: "100%",
+    gap: 10,
+  },
+
+  pickerHalf: {
+    flex: 1,
+    backgroundColor: "#fff7ef",
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    borderColor: "#e7c9a6",
+    overflow: "hidden",
   },
 });
 
