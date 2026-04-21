@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: "bold",
+    marginTop: 6,
   },
 });
 
