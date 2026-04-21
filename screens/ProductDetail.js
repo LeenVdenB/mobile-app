@@ -51,7 +51,7 @@ const ProductDetail = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#faf1e6",
   },
 
   content: {
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
 
   description: {
     fontSize: 15,
-    color: "#555",
+    color: "#111",
     lineHeight: 22,
     textAlign: "left",
     marginBottom: 10,
   },
 
   price: {
-    fontSize: 22,
+    fontSize: 15,
     fontWeight: "700",
     color: "#111",
     marginVertical: 10,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#f59d8f",
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 8,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
 
   totalPrice: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
     marginTop: 10,
     color: "#333",
