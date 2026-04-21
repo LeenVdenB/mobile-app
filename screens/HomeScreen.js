@@ -48,7 +48,7 @@ const HomeScreen = ({ navigation }) => {
           data.items.map((item) => ({
             id: item.product.id,
             title: item.product.fieldData.name,
-            subtitle: item.product.fieldData.description,
+            description: item.product.fieldData.description,
             price: (item.skus[0]?.fieldData.price.value || 0) / 100,
             image: { uri: item.skus[0]?.fieldData["main-image"]?.url },
             category:
@@ -91,7 +91,8 @@ const HomeScreen = ({ navigation }) => {
           data.items.map((item) => ({
             id: item.id,
             title: item.fieldData.name,
-            subtitle: item.fieldData["post-summary"],
+            description: item.fieldData["post-summary"],
+            content: item.fieldData["post-body"],
             image: { uri: item.fieldData["main-image"]?.url },
           })),
         );
@@ -141,22 +142,24 @@ const HomeScreen = ({ navigation }) => {
         <Picker.Item label="Naam: Z tot A" value="name-desc" />
       </Picker>
 
+      <Text style={styles.title}>Onze Producten</Text>
       {sortedProducts.map((product) => (
         <ProductCard
           key={product.id}
           title={product.title}
-          description={product.subtitle}
+          description={product.description}
           price={product.price}
           image={product.image}
           onPress={() => navigation.navigate("Details", product)}
         />
       ))}
 
+      <Text style={styles.title}>Onze Blogs</Text>
       {blogs.map((blog) => (
         <BlogCard
           key={blog.id}
           title={blog.title}
-          description={blog.subtitle}
+          description={blog.description}
           image={blog.image}
           onPress={() => navigation.navigate("BlogDetails", blog)}
         />

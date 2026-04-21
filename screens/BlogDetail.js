@@ -10,13 +10,13 @@ import {
 import { useState } from "react";
 
 const BlogDetail = ({ route }) => {
-  const { title, description, image } = route.params;
+  const { title, content, image } = route.params;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.title}>{title}</Text>
       <Image source={image} style={styles.image} />
-      <Text>{description}</Text>
+      <Text>{content}</Text>
 
       <StatusBar style="auto" />
     </ScrollView>
