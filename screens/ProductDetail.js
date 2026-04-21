@@ -26,8 +26,8 @@ const ProductDetail = ({ route }) => {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.title}>{title}</Text>
       <Image source={image} style={styles.image} />
-      <Text>{description}</Text>
-      <Text>{price}</Text>
+      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.price}>Prijs per kit: €{price}</Text>
 
       <View style={styles.quantityContainer}>
         <TouchableOpacity style={styles.button} onPress={decreaseQuantity}>
@@ -51,40 +51,84 @@ const ProductDetail = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f5f5",
   },
+
   content: {
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
   },
+
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 26,
+    fontWeight: "700",
+    marginBottom: 10,
+    color: "#111",
+    textAlign: "center",
   },
+
   image: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
+    height: 220,
+    borderRadius: 12,
+    marginBottom: 15,
   },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
+
+  description: {
+    fontSize: 15,
+    color: "#555",
+    lineHeight: 22,
+    textAlign: "left",
+    marginBottom: 10,
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+
+  price: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#111",
+    marginVertical: 10,
   },
+
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 20,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 12,
+    elevation: 2, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
   },
+
+  button: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+
   quantityText: {
     fontSize: 18,
-    fontWeight: "bold",
-    marginHorizontal: 10,
+    fontWeight: "700",
+    marginHorizontal: 15,
+    color: "#111",
+  },
+
+  totalPrice: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 10,
+    color: "#333",
   },
 });
 
